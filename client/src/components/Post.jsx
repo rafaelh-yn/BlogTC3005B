@@ -1,0 +1,24 @@
+import { useState, useEffect } from 'react'
+import { useParams, Link } from 'react-router'
+
+export function Post() {
+    const { id_post } = useParams()
+    const [post, setPost] = useState({})
+
+    useEffect(() => {
+        fetch('http://localhost:8000/posts/' + id_post)
+        .then((res) => res.json())
+        .then((data) => setPost(data))
+        .catch((error) => console.log(error))
+    }, [id_post])
+
+    return (
+        <div style={{ padding: '2rem' }}>
+            {post.img && <img src={'../src/assets/uploads/' + post.img} alt="Imagen del post" style={{ maxWidth: '400px' }} />}
+            <h1>{post.title}</h1>
+            <h2>Escrito por: <Link to={'/autor/' + post.id_autor}>{post.id_autor}</Link></h2>
+            <p>{post.date ? post.date.substring(0, 10) : ''}</p>
+            <p>{post.text}</p>
+        </div>
+    )
+}

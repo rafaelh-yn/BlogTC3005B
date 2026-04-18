@@ -1,0 +1,19 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno — nunca subir al repositorio
+.env
+
+# Imágenes subidas por los usuarios
+client/src/assets/uploads/*
+!client/src/assets/uploads/.gitkeep
+
+# Build de Vite
+client/dist/
+
+# Archivos del sistema operativo
+.DS_Store
+
+CLAUDE.md
+.claude/
+.idea/
