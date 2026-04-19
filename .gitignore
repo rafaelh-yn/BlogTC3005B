@@ -5,7 +5,7 @@ node_modules/
 .env
 
 # Imágenes subidas por los usuarios
-client/src/assets/uploads/*
+#client/src/assets/uploads/*
 !client/src/assets/uploads/.gitkeep
 
 # Build de Vite
