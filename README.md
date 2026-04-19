@@ -40,7 +40,7 @@ npm install
 npm run dev
 ```
 
-Deberías ver: `Servidor corriéndose en el puerto 8000`
+Deberías ver: `Servidor corriendo en el puerto 8000`
 
 ### Terminal 3 — Cliente (React)
 
@@ -90,9 +90,13 @@ Asegúrate de que la carpeta `client/src/assets/uploads/` exista. Si no está, c
 mkdir -p client/src/assets/uploads
 ```
 
-**Quiero reiniciar la base de datos desde cero**
+**Hice cambios en `db/init.sql` y quiero aplicarlos**
+
+Docker solo corre `init.sql` la primera vez. Si modificas el archivo, necesitas borrar el volumen para que lo vuelva a ejecutar:
+
 ```bash
 docker compose down -v
 docker compose up db
 ```
-Esto borra todos los datos y vuelve a correr `init.sql`.
+
+> **Ojo:** `-v` borra todos los datos existentes. Úsalo solo en desarrollo cuando no te importe perderlos.

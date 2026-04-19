@@ -1,10 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function NewPost() {
     const [title, setTitle] = useState('')
     const [text, setText] = useState('')
     const [date, setDate] = useState('')
     const [img, setImg] = useState(null)
+    const [authorId, setAuthorId] = useState('')
+    const [authors, setAuthors] = useState([])
+
+    useEffect(() => {
+        fetch('http://localhost:8000/autores')
+        .then((res) => res.json())
+        .then((data) => setAuthors(data))
+        .catch((error) => console.log(error))
+    }, [])
 
     function handleTitleChange(e) {
         setTitle(e.target.value)
@@ -31,6 +40,7 @@ export default function NewPost() {
         formInfo.append('title', title)
         formInfo.append('text', text)
         formInfo.append('date', date)
+        formInfo.append('author_id', authorId)
         if (img) {
             formInfo.append('img', img.file, img.filename)
         }
@@ -58,6 +68,17 @@ export default function NewPost() {
                 <div>
                     <label>Fecha: </label>
                     <input type='date' value={date} onChange={handleDateChange} />
+                </div>
+                <div>
+                    <label>Autor: </label>
+                    <select value={authorId} onChange={(e) => setAuthorId(e.target.value)}>
+                        <option value=''>-- Selecciona un autor --</option>
+                        {authors.map((author) => (
+                            <option key={author.id_autor} value={author.id_autor}>
+                                {author.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label>Imagen: </label>

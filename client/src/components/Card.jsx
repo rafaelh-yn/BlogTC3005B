@@ -10,6 +10,7 @@ export function CardList({ entries, filteredText }) {
                 title={entry.title}
                 date={entry.date}
                 img={entry.img}
+                author_name={entry.author_name}
             />
         ))
     return (
@@ -19,13 +20,14 @@ export function CardList({ entries, filteredText }) {
     )
 }
 
-export function Card({ id_post, img, title, date }) {
+export function Card({ id_post, img, title, date, author_name }) {
     return (
         <div style={{ border: '1px solid #ccc', padding: '1rem', width: '200px', borderRadius: '8px' }}>
             <Link to={'/blog/' + id_post} style={{ textDecoration: 'none', color: '#333' }}>
                 {img && <img src={'../src/assets/uploads/' + img} alt="Imagen del post" style={{ width: '100%' }} />}
                 <h2>{title}</h2>
                 <p>{date ? date.substring(0, 10) : ''}</p>
+                {author_name && <p>Por: {author_name}</p>}
             </Link>
         </div>
     )

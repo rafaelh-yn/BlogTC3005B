@@ -16,7 +16,7 @@ export function Post() {
         <div style={{ padding: '2rem' }}>
             {post.img && <img src={'../src/assets/uploads/' + post.img} alt="Imagen del post" style={{ maxWidth: '400px' }} />}
             <h1>{post.title}</h1>
-            <h2>Escrito por: <Link to={'/autor/' + post.id_autor}>{post.id_autor}</Link></h2>
+            <h2>Escrito por: <Link to={'/autor/' + post.author_id}>{post.author_name}</Link></h2>
             <p>{post.date ? post.date.substring(0, 10) : ''}</p>
             <p>{post.text}</p>
         </div>
