@@ -5,10 +5,10 @@
 
 -- Tabla de autores
 CREATE TABLE IF NOT EXISTS authors (
-  id_autor  SERIAL PRIMARY KEY,
-  name      TEXT NOT NULL,
-  username  TEXT UNIQUE,
-  password  TEXT
+  id_author  SERIAL PRIMARY KEY,
+  name       TEXT NOT NULL,
+  username   TEXT UNIQUE,
+  password   TEXT
 );
 
 -- Tabla de posts
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS posts (
   text       TEXT,
   img        TEXT,
   date       DATE,
-  author_id  INTEGER REFERENCES authors(id_autor)
+  author_id  INTEGER REFERENCES authors(id_author)
 );
 
 -- ============================================================

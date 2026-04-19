@@ -20,7 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/blog/:id_post" element={<Post />} />
-        <Route path="/autor/:id_autor" element={<Author />} />
+        <Route path="/autores/:id_author" element={<Author />} />
         <Route path="/nuevo" element={<NewPost />} />
         <Route path="/contacto" element={<Contact />} />
       </Routes>

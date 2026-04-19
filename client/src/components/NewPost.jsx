@@ -74,7 +74,7 @@ export default function NewPost() {
                     <select value={authorId} onChange={(e) => setAuthorId(e.target.value)}>
                         <option value=''>-- Selecciona un autor --</option>
                         {authors.map((author) => (
-                            <option key={author.id_autor} value={author.id_autor}>
+                            <option key={author.id_author} value={author.id_author}>
                                 {author.name}
                             </option>
                         ))}
