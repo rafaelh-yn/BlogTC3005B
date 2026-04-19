@@ -1,7 +1,16 @@
 -- ============================================================
 -- Blog de Mascotas — inicialización de la base de datos
--- Prácticas 4–7
+-- Prácticas 4–8
 -- ============================================================
+
+-- Tabla de sesiones (requerida por connect-pg-simple)
+CREATE TABLE IF NOT EXISTS "session" (
+  "sid"    varchar NOT NULL COLLATE "default",
+  "sess"   json NOT NULL,
+  "expire" timestamp(6) NOT NULL
+);
+ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+CREATE INDEX IF NOT EXISTS "IDX_session_expire" ON "session" ("expire");
 
 -- Tabla de autores
 CREATE TABLE IF NOT EXISTS authors (
