@@ -87,3 +87,15 @@ app.post('/login', upload.none(), (req, res) => {
 ## ¿Por qué no basta con encriptar?
 
 La encriptación se puede revertir si tienes la llave. El hashing no se puede revertir — esa es la diferencia clave. Para contraseñas siempre se usa hashing, nunca encriptación simétrica.
+
+---
+
+## Para los curiosos: cómo funcionan las funciones de hash por dentro
+
+Si quieres entender la teoría detrás de esto, los temas que vale la pena investigar son:
+
+- **Funciones de hash criptográficas** — la base matemática. Propiedades que debe cumplir una función de hash segura: resistencia a preimagen, resistencia a segunda preimagen y resistencia a colisiones. SHA-256 es un buen punto de partida para entender la estructura general.
+- **El problema con MD5 y SHA-1 para contraseñas** — son funciones rápidas, y eso es malo para este caso de uso. Investiga por qué la velocidad es un problema cuando alguien intenta adivinar contraseñas por fuerza bruta.
+- **Key stretching** — la técnica que usan bcrypt, scrypt y Argon2 para hacer el hashing deliberadamente lento y costoso en memoria. El parámetro `saltRounds` de bcrypt controla exactamente esto.
+- **Salt** — un valor aleatorio que se agrega a la contraseña antes de hashearla. Investiga qué son los **rainbow tables** y por qué el salt los hace inútiles.
+- **Argon2** — el ganador del Password Hashing Competition (2015) y considerado hoy el estándar más robusto. Compáralo con bcrypt y scrypt en términos de resistencia a ataques con GPU y hardware especializado (ASICs).
