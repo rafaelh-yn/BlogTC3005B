@@ -4,21 +4,22 @@ const cors = require('cors');
 const multer = require('multer');
 const session = require('express-session')
 const pgSession = require('connect-pg-simple')(session);
+require('dotenv').config();
 
 const app = express();
 
 /* CORS config */
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
 // ── Conexión a la base de datos ───────────────────────────────
 const pgp = require('pg-promise')();
 const cn = {
-    host: 'localhost',
-    port: 5432,
-    database: 'blogdb',
-    user: 'blog_user',
-    password: 'blog_pass',
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
     allowExitOnIdle: true
 }
 const db = pgp(cn);
@@ -37,10 +38,10 @@ app.use(session({
     store: new pgSession({
         pgPromise: db, // DB object from pg-promise
     }),
-    secret: 'hola',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 10 * 60 * 1000, secure: false },
+    cookie: { maxAge: 10 * 60 * 1000, secure: process.env.NODE_ENV === 'production' },
 }));
 
 /* Function to authenticate */
@@ -140,6 +141,6 @@ app.post('/login', upload.none(), (req, res) => {
 });
 
 // ── Inicio del servidor ───────────────────────────────────────
-app.listen(8000, () => {
-    console.log('Servidor corriendo en el puerto 8000');
+app.listen(process.env.PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
 });

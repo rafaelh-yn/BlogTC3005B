@@ -6,7 +6,7 @@ export function Post() {
     const [post, setPost] = useState({})
 
     useEffect(() => {
-        fetch('http://localhost:8000/posts/' + id_post)
+        fetch(import.meta.env.VITE_API_URL + '/posts/' + id_post)
         .then((res) => res.json())
         .then((data) => setPost(data))
         .catch((error) => console.log(error))

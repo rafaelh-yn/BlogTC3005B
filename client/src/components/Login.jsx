@@ -19,7 +19,7 @@ export default function Login() {
         formInfo.append('username', username)
         formInfo.append('password', password)
 
-        fetch('http://localhost:8000/login', {
+        fetch(import.meta.env.VITE_API_URL + '/login', {
             method: 'POST',
             credentials: 'include',
             body: formInfo,
