@@ -140,6 +140,16 @@ app.post('/login', upload.none(), (req, res) => {
     .catch((error) => console.log('ERROR: ', error));
 });
 
+// GET seed — ejecuta init.sql para inicializar la base de datos
+app.get('/seed', (req, res) => {
+    const fs = require('fs');
+    const path = require('path');
+    const sql = fs.readFileSync(path.join(__dirname, '../db/init.sql'), 'utf8');
+    db.none(sql)
+        .then(() => res.send('Base de datos inicializada correctamente'))
+        .catch((error) => res.status(500).send('Error: ' + error.message));
+});
+
 // ── Inicio del servidor ───────────────────────────────────────
 app.listen(process.env.PORT, () => {
     console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
