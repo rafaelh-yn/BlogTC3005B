@@ -41,7 +41,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 10 * 60 * 1000, secure: process.env.NODE_ENV === 'production' },
+    cookie: { maxAge: 10 * 60 * 1000, secure: process.env.NODE_ENV === 'production', sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' },
 }));
 
 /* Function to authenticate */
