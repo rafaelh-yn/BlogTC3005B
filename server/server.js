@@ -127,9 +127,9 @@ app.post('/login', upload.none(), (req, res) => {
             if (data.password == password) {
                 req.session.id_author = data.id_author;
                 req.session.save(function (err) {
-                    if (err) next(err)
-                })
-                res.send(req.session);
+                    if (err) return next(err)
+                    res.send(req.session);
+                });
             } else {
                 res.status(401).send('Invalid email/password');
             }
