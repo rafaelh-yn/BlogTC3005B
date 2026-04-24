@@ -1,9 +1,14 @@
+/* Imports */
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
+const session = require('express-session')
+const pgSession = require('connect-pg-simple')(session);
 
 const app = express();
-app.use(cors());
+
+/* CORS config */
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
 
 // ── Conexión a la base de datos ───────────────────────────────
@@ -26,6 +31,26 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+
+/* SESSION */
+app.use(session({
+    store: new pgSession({
+        pgPromise: db, // DB object from pg-promise
+    }),
+    secret: 'hola',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 10 * 60 * 1000, secure: false },
+}));
+
+/* Function to authenticate */
+const authenticateSession = (req, res, next) => {
+    if (req.session.id_author) {
+        next();
+    } else {
+        res.sendStatus(401);
+    }
+};
 
 // ── Rutas ─────────────────────────────────────────────────────
 
@@ -60,8 +85,8 @@ app.get('/autores', (req, res) => {
     .catch((error) => console.log('ERROR:', error));
 });
 
-/* GET un autor por id */
-app.get('/autores/:id_author', (req, res) => {
+/* GET un autor por id — requiere sesión activa */
+app.get('/autores/:id_author', authenticateSession, (req, res) => {
     db.one('SELECT * FROM authors WHERE id_author = $1', [req.params.id_author])
     .then((data) => res.json(data))
     .catch((error) => console.log('ERROR:', error));
@@ -72,6 +97,46 @@ app.get('/autores/:id_author/posts', (req, res) => {
     db.any('SELECT * FROM posts WHERE author_id = $1 ORDER BY date DESC', [req.params.id_author])
     .then((data) => res.json(data))
     .catch((error) => console.log('ERROR:', error));
+});
+
+// GET session variables
+app.get('/session-info', (req, res) => {
+    res.json(req.session);
+});
+
+// GET to logout and end session
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('Failed to destroy session');
+        }
+        res.send('Session destroyed');
+    });
+});
+
+// POST login — verifica credenciales
+app.post('/login', upload.none(), (req, res) => {
+    const { username, password } = req.body;
+
+    db.oneOrNone('SELECT * FROM authors WHERE username=$1', [username])
+    .then((data) => {
+        if (data != null) {
+            // NOTA: en una aplicación real, la contraseña debería estar hasheada
+            // (por ejemplo con bcrypt). Nunca guardes ni compares contraseñas en texto plano.
+            if (data.password == password) {
+                req.session.id_author = data.id_author;
+                req.session.save(function (err) {
+                    if (err) next(err)
+                })
+                res.send(req.session);
+            } else {
+                res.status(401).send('Invalid email/password');
+            }
+        } else {
+            res.status(401).send('Invalid credentials');
+        }
+    })
+    .catch((error) => console.log('ERROR: ', error));
 });
 
 // ── Inicio del servidor ───────────────────────────────────────
