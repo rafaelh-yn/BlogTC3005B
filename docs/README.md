@@ -21,3 +21,4 @@ Estos temas van más allá del alcance del curso pero son el siguiente paso natu
 
 - [Despliegue en Render](deploy-render.md) — cómo publicar el proyecto completo (base de datos, servidor y cliente) en internet usando Render
 - [Variables de entorno en GitHub](practica-variables-entorno-github.md) — cómo manejar variables de entorno de forma segura en el repositorio
+- [Sesiones y login en producción](sesiones-cross-origin.md) — por qué el login falla cuando el frontend y backend están en dominios distintos, y cómo solucionarlo
