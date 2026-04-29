@@ -57,6 +57,12 @@ La base de datos está vacía. Necesitas crear las tablas y los datos de ejemplo
    ```
    > Si no tienes `psql` instalado, puedes usar [TablePlus](https://tableplus.com) o [DBeaver](https://dbeaver.io) para conectarte y ejecutar el archivo `init.sql` manualmente.
 
+   > **¿No tienes el archivo `init.sql`?** Si creaste la base de datos manualmente en tu computadora, puedes generarlo con este comando:
+   > ```bash
+   > pg_dump -U postgres --schema-only --no-owner nombre_de_tu_base > db/init.sql
+   > ```
+   > Cambia `postgres` por tu usuario y `nombre_de_tu_base` por el nombre de tu base local. Si tu PostgreSQL tiene contraseña, `pg_dump` te la pedirá. Después ejecuta el comando de arriba normalmente.
+
 3. Verifica que se crearon las tablas `posts` y `authors`.
 
 ---

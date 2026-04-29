@@ -90,6 +90,18 @@ Asegúrate de que la carpeta `client/src/assets/uploads/` exista. Si no está, c
 mkdir -p client/src/assets/uploads
 ```
 
+**No tengo el archivo `db/init.sql`**
+
+Si creaste la base de datos manualmente (sin Docker), puedes generar el archivo desde tu PostgreSQL local:
+
+```bash
+pg_dump -U postgres --schema-only --no-owner nombre_de_tu_base > db/init.sql
+```
+
+Cambia `postgres` por tu usuario y `nombre_de_tu_base` por el nombre de tu base. Si tiene contraseña, `pg_dump` te la pedirá.
+
+---
+
 **Hice cambios en `db/init.sql` y quiero aplicarlos**
 
 Docker solo corre `init.sql` la primera vez. Si modificas el archivo, necesitas borrar el volumen para que lo vuelva a ejecutar:
