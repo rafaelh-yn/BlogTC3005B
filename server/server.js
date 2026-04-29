@@ -33,6 +33,9 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+/* Indica a Express que confíe en el proxy de Render para que las cookies Secure funcionen */
+app.set('trust proxy', 1);
+
 /* SESSION */
 app.use(session({
     store: new pgSession({
