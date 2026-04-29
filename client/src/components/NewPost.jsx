@@ -9,7 +9,7 @@ export default function NewPost() {
     const [authors, setAuthors] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:8000/autores')
+        fetch(import.meta.env.VITE_API_URL + '/autores')
         .then((res) => res.json())
         .then((data) => setAuthors(data))
         .catch((error) => console.log(error))
@@ -44,7 +44,7 @@ export default function NewPost() {
         if (img) {
             formInfo.append('img', img.file, img.filename)
         }
-        fetch('http://localhost:8000/posts/new', {
+        fetch(import.meta.env.VITE_API_URL + '/posts/new', {
             method: 'POST',
             body: formInfo,
         })

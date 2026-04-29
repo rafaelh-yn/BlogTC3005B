@@ -158,3 +158,23 @@ Ahora que ya tienes la URL real del cliente, actualiza la variable de entorno de
 ---
 
 > **Nota sobre el plan gratuito:** Render Free tiene limitaciones — el servidor se suspende después de 15 minutos de inactividad y los datos de la base de datos se eliminan después de 90 días. Es suficiente para mostrar el proyecto, pero no para producción real.
+
+---
+
+## Nota — Rutas directas en el cliente (React Router + Static Site)
+
+Si escribes una URL directamente en el navegador (por ejemplo `https://blog-client.onrender.com/login`) y obtienes un error 404, esto es normal en aplicaciones SPA (Single Page Application).
+
+**¿Por qué pasa?** React Router maneja las rutas en el navegador con JavaScript. Cuando navegas desde la app, React intercepta el clic y cambia la vista sin hacer una petición al servidor — por eso funciona. Pero si escribes la URL directamente, el navegador hace una petición HTTP al servidor de Render pidiendo el archivo `/login`, que no existe. Render devuelve 404.
+
+**La solución** es decirle a Render que sirva siempre `index.html` sin importar la ruta, para que React Router tome el control:
+
+1. Ve a tu Static Site (`blog-client`) en el dashboard de Render.
+2. Haz clic en **Settings** (o la pestaña **Redirects/Rewrites**).
+3. Busca la sección **Rewrite Rules** y agrega una regla:
+   - **Source:** `/*`
+   - **Destination:** `/index.html`
+   - **Action:** `Rewrite` (no `Redirect` — rewrite mantiene la URL original en el navegador)
+4. Guarda y redespliega.
+
+A partir de ese momento, Render servirá `index.html` para cualquier ruta y React Router se encargará del resto.

@@ -12,7 +12,7 @@ function App() {
   const navigate = useNavigate()
 
   function handleLogout() {
-    fetch('http://localhost:8000/logout', { credentials: 'include' })
+    fetch(import.meta.env.VITE_API_URL + '/logout', { credentials: 'include' })
     .then(() => navigate('/login'))
     .catch((error) => console.log(error))
   }

@@ -9,7 +9,7 @@ export function Author() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch('http://localhost:8000/autores/' + id_author, {
+        fetch(import.meta.env.VITE_API_URL + '/autores/' + id_author, {
             method: 'GET',
             credentials: 'include'
         })
@@ -22,7 +22,7 @@ export function Author() {
         .then((data) => setAutor(data))
         .catch((error) => console.log(error))
 
-        fetch('http://localhost:8000/autores/' + id_author + '/posts')
+        fetch(import.meta.env.VITE_API_URL + '/autores/' + id_author + '/posts')
         .then((res) => res.json())
         .then((data) => setPosts(data))
         .catch((error) => console.log(error))
